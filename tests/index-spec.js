@@ -1,5 +1,6 @@
 var app = require('./../index');
 var request = require('supertest');
+var expect = require('chai').expect;
 
 describe('GET /user', function () {
 
@@ -10,6 +11,9 @@ describe('GET /user', function () {
             .post("/json")
             .send(json)
             .expect(200)
-            .expect(JSON.stringify(json), done);
+            .end(function (err, res) {
+                expect(JSON.parse(res.text)).to.eql(json);
+                done();
+            });
     });
 });

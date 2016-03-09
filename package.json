@@ -14,7 +14,7 @@
     "express": "^4.13.4"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "supertest": "^1.2.0"
   }
 }
-
