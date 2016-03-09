@@ -6,6 +6,11 @@ var dataStore = [];
 var Client = require('node-rest-client').Client;
 var id = 0;
 var amqp = require('amqplib/callback_api');
+var serviceDiscovery = require('./service-discovery')();
+
+serviceDiscovery.broadcast();
+
+
 
 replayEvents(getEvents());
 
@@ -15,6 +20,7 @@ function getEvents() {
 
 function replayEvents(events) {
 	events.forEach(function(event) {
+		id = event.id > id ? event.id : id;
 		console.log(' [x] Replaying %s', JSON.stringify(event));
 		pushToConsumer(event);
 	});
