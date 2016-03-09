@@ -8,33 +8,18 @@ var id = 0;
 var amqp = require('amqplib/callback_api');
 
 function pushToConsumer(data) {
-	var client = new Client();
-
-	var args = {
-		data: data,
-		headers: { "Content-Type": "application/json" }
-	};
- 
-	client.post("http://localhost:3000/file", args, function (data, response) {
-		console.log("Done");
-	});
+	amqp.connect('amqp://localhost', function(err, conn) {
+        conn.createChannel(function(err, ch) {
+            var q = 'fileQueue';
+            ch.assertQueue(q, {durable: false});
+            ch.sendToQueue(q, new Buffer(JSON.stringify(data)));
+            console.log(" [x] Sent Data");
+        });
+    });
 }
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
-// app.post('/json', function(req, res) {
-// 	var data = {
-// 		timestamp: Date.now(),
-// 		id: id +=1,
-// 		content: req.body
-// 	};
-// 	dataStore.push(data);
-// 	console.log(dataStore);
-// 	pushToConsumer(data);
-
-// 	res.status(200).json(req.body);
-// });
 
 amqp.connect('amqp://localhost', function(err, conn) {
   	conn.createChannel(function(err, ch) {
