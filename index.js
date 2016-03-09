@@ -15,8 +15,7 @@ function pushToConsumer(data) {
 	};
  
 	client.post("http://localhost:3000/file", args, function (data, response) {
-		console.log(data);
-		console.log(response);
+		console.log("Done");
 	});
 }
 
@@ -26,7 +25,7 @@ app.use(bodyParser.json());
 app.post('/json', function(req, res) {
 	var data = {
 		timestamp: Date.now(),
-		id: id +=1
+		id: id +=1,
 		content: req.body
 	};
 	dataStore.push(data);
