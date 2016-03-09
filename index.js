@@ -7,6 +7,25 @@ var Client = require('node-rest-client').Client;
 var id = 0;
 var amqp = require('amqplib/callback_api');
 
+replayEvents(getEvents());
+
+function getEvents() {
+	return JSON.parse(fs.readFileSync('event-store.json', 'utf-8'));
+}
+
+function replayEvents(events) {
+	events.forEach(function(event) {
+		console.log(' [x] Replaying %s', JSON.stringify(event));
+		pushToConsumer(event);
+	});
+}
+
+function storeEvent(event) {
+	var events = getEvents().concat([event]);
+	fs.writeFileSync('event-store.json', JSON.stringify(events), 'utf-8');
+	dataStore.push(event)
+}
+
 function pushToConsumer(data) {
 	amqp.connect('amqp://localhost', function(err, conn) {
         conn.createChannel(function(err, ch) {
@@ -35,7 +54,7 @@ amqp.connect('amqp://localhost', function(err, conn) {
 				content: payload
 			};
 
-			dataStore.push(data)
+			storeEvent(data);
 			pushToConsumer(data);
 
   			console.log(" [x] Received %s", JSON.stringify(payload));
