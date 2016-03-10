@@ -14,7 +14,7 @@ module.exports = function() {
             "http://localhost:8500/v1/agent/service/register", 
             args, 
             function (data, response) {
-                callback();
+                callback && callback();
             }
         );
         console.log(' [s] Connected to service discovery');
@@ -25,7 +25,7 @@ module.exports = function() {
         client.get(
             "http://localhost:8500/v1/agent/service/deregister/datastore", 
             function (data, response) {
-                callback();
+                callback && callback();
             }
         );
         console.log(' [s] Disconnected from service discovery');

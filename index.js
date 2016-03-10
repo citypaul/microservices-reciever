@@ -12,7 +12,7 @@ serviceDiscovery.connect();
 
 process.on( 'SIGINT', function() {
     console.log( "\nGracefully shutting down from SIGINT (Ctrl-C)" );
-    ServiceDiscovery.disconnect(process.exit);
+    serviceDiscovery.disconnect(process.exit);
 });
 
 
