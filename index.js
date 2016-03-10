@@ -6,14 +6,6 @@ var dataStore = [];
 var Client = require('node-rest-client').Client;
 var id = 0;
 var amqp = require('amqplib/callback_api');
-var serviceDiscovery = require('./service-discovery')();
-
-serviceDiscovery.connect();
-
-process.on( 'SIGINT', function() {
-    console.log( "\nGracefully shutting down from SIGINT (Ctrl-C)" );
-    serviceDiscovery.disconnect(process.exit);
-});
 
 replayEvents(getEvents());
 
@@ -70,7 +62,5 @@ amqp.connect('amqp://localhost', function(err, conn) {
 		}, {noAck: true});
   	});
 });
-
-
 
 module.exports = app;
