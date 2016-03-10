@@ -1,9 +1,5 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
 var fs = require('fs');
 var dataStore = [];
-var Client = require('node-rest-client').Client;
 var id = 0;
 var amqp = require('amqplib/callback_api');
 
@@ -38,9 +34,6 @@ function pushToConsumer(data) {
     });
 }
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-
 amqp.connect('amqp://localhost', function(err, conn) {
   	conn.createChannel(function(err, ch) {
     	var q = 'queue';
@@ -62,5 +55,3 @@ amqp.connect('amqp://localhost', function(err, conn) {
 		}, {noAck: true});
   	});
 });
-
-module.exports = app;

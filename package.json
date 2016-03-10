@@ -10,11 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.4.1",
-    "body-parser": "^1.15.0",
-    "chokidar": "^1.4.3",
-    "express": "^4.13.4",
-    "node-rest-client": "^1.8.0",
-    "rabbit.js": "^0.4.4"
+    "node-rest-client": "^1.8.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
