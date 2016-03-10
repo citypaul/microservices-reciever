@@ -1,3 +1,4 @@
-var app = require('./');
+var app = require('./')
+	port = require('./config/service')['Port'];
 
-app.listen(3001);
+app.listen(port);
