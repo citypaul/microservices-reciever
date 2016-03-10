@@ -15,7 +15,6 @@ process.on( 'SIGINT', function() {
     serviceDiscovery.disconnect(process.exit);
 });
 
-
 replayEvents(getEvents());
 
 function getEvents() {

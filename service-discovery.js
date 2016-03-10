@@ -21,9 +21,10 @@ module.exports = function() {
     }
 
     function disconnect(callback) {
+        var id = config['ID'];
         console.log(' [s] Disconnecting from service discovery');
         client.get(
-            "http://localhost:8500/v1/agent/service/deregister/datastore", 
+            "http://localhost:8500/v1/agent/service/deregister/" + id, 
             function (data, response) {
                 callback && callback();
             }
