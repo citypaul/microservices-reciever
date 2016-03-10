@@ -1,22 +1,38 @@
-var Client = require('node-rest-client').Client;
-var serviceConfig = require('./config/service');
+var Client = require('node-rest-client').Client,
+    client = new Client,
+    config = require('./config/service');
 
-module.exports = function () {
+module.exports = function() {
 
-    function broadcast() {
-        var client = new Client();
-        var args = {
-            data: serviceConfig,
-            headers: { "Content-Type": "application/json" }
-        };
+    function connect(callback) {
+        var args = { 
+                data: config,
+                headers: { "Content-Type": "application/json" }
+            };
+        console.log(' [s] Connecting to service discovery');
+        client.put(
+            "http://localhost:8500/v1/agent/service/register", 
+            args, 
+            function (data, response) {
+                callback();
+            }
+        );
+        console.log(' [s] Connected to service discovery');
+    }
 
-        client.put("http://172.29.66.157:8500/v1/agent/service/register", args, function (data, response) {
-            console.log(data);
-            console.log(response);
-        });
+    function disconnect(callback) {
+        console.log(' [s] Disconnecting from service discovery');
+        client.get(
+            "http://localhost:8500/v1/agent/service/deregister/datastore", 
+            function (data, response) {
+                callback();
+            }
+        );
+        console.log(' [s] Disconnected from service discovery');
     }
 
     return {
-        broadcast: broadcast
-    }
+        connect: connect,
+        disconnect: disconnect
+    };
 }

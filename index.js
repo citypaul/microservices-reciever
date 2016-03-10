@@ -8,8 +8,12 @@ var id = 0;
 var amqp = require('amqplib/callback_api');
 var serviceDiscovery = require('./service-discovery')();
 
-serviceDiscovery.broadcast();
+serviceDiscovery.connect();
 
+process.on( 'SIGINT', function() {
+    console.log( "\nGracefully shutting down from SIGINT (Ctrl-C)" );
+    ServiceDiscovery.disconnect(process.exit);
+});
 
 
 replayEvents(getEvents());

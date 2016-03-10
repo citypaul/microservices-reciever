@@ -1,5 +1,4 @@
 module.exports = {
-
     "ID": "receiver",
     "Name": "receiver",
     "Tags": [
